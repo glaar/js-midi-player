@@ -23,15 +23,15 @@ function frequencyForNote(noteNumber) {
 }
 
 var keys = {
-  65: {note: 48 + 12, on: false, instrument: square},
-  83: {note: 50 + 12, on: false, instrument: square},
-  68: {note: 53 + 12, on: false, instrument: square},
-  70: {note: 55 + 12, on: false, instrument: square},
-  71: {note: 57 + 12, on: false, instrument: square},
-  72: {note: 60 + 12, on: false, instrument: square},
-  74: {note: 62 + 12, on: false, instrument: square},
-  75: {note: 65 + 12, on: false, instrument: square},
-  76: {note: 67 + 12, on: false, instrument: square},
+  65: {note: 48 + 12, on: false, instrument: sin},
+  83: {note: 50 + 12, on: false, instrument: sin},
+  68: {note: 53 + 12, on: false, instrument: sin},
+  70: {note: 55 + 12, on: false, instrument: sin},
+  71: {note: 57 + 12, on: false, instrument: sin},
+  72: {note: 60 + 12, on: false, instrument: sin},
+  74: {note: 62 + 12, on: false, instrument: sin},
+  75: {note: 65 + 12, on: false, instrument: sin},
+  76: {note: 67 + 12, on: false, instrument: sin},
 
   90: {note: 48 - 12, on: false, instrument: triangle},
   88: {note: 50 - 12, on: false, instrument: triangle},
