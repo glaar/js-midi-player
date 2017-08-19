@@ -37,11 +37,14 @@
                 canvas.width = canvas.width;
                 for(var i = 0; i < gridsize; i++){
                     ctx.strokeRect(10, 50+i*boxSize, boxSize, boxSize);
+
+                    ctx.save();
                     ctx.beginPath();
                     ctx.moveTo(500,50+i*boxSize);
                     ctx.lineTo(10,50+i*boxSize);
                     ctx.strokeStyle = 'grey';
                     ctx.stroke();
+                    ctx.restore();
 
                     ctx.fillText(noteNumberToNote(62-i),20,70+(i*boxSize));
                 }
