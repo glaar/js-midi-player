@@ -36,7 +36,6 @@
               if (midiChannel === 0 && e.type == 0x9) {	//note on
                 canvas.width = canvas.width;
                 for(var i = 0; i < gridsize; i++){
-
                     ctx.strokeRect(10, 50+i*boxSize, boxSize, boxSize);
                     ctx.beginPath();
                     ctx.moveTo(120,50+i*boxSize);
@@ -44,7 +43,7 @@
                     ctx.strokeStyle = 'grey';
                     ctx.stroke();
 
-                    ctx.fillText(noteNumberToNote(noteNumber),20,70+(i*boxSize));
+                    ctx.fillText(noteNumberToNote(62-i),20,70+(i*boxSize));
                 }
 
                 ctx.fillRect(70, 50+(19-(noteNumber-43))*boxSize, boxSize, boxSize);
