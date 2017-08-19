@@ -58,7 +58,7 @@ function Mixer() {
     this.analyser.fftSize = 1024;
     this.convolver = this.ax.createConvolver();
     this.gainNode = this.ax.createGain();
-    var buffer = this.ax.createBuffer(2, 48000 * 3, 48000);
+    var buffer = this.ax.createBuffer(2, 44100 * 3, 44100);
     var channeldatal = buffer.getChannelData(0);
     var channeldatar = buffer.getChannelData(1);
     for (var i = 0; i < 10000; i++) {
@@ -150,7 +150,7 @@ function Instrument(channel) {
     };
 }
 
-RATE = 48000;	//samples per second
+RATE = 44100;	//samples per second
 RATE_RECIPROCAL = 1 / RATE;
 A = 0.16 / 127;	//default amplitude
 A3 = 0.48 / 127;	//default amplitude * 3
