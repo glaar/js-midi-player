@@ -7,7 +7,7 @@
         <script src="synth.js"></script>
     </head>
     <body>
-        <canvas width="800" height="800" id="that-canvas"></canvas>
+        <canvas width="1200" height="800" id="that-canvas"></canvas>
 
         <script src="midi_base64.php?filename=TCPBC%20jingle.mid"></script>
         <script>
@@ -31,17 +31,19 @@
             var drawEvent = function(e) {
               var midiChannel = e.midi_channel;
               var noteNumber = e.note_number;
-              var gridsize = 20;
+              var gridSize = 20;
               var boxSize = 30;
 
               if (midiChannel === 0 && e.type == 0x9) {	//note on
                 canvas.width = canvas.width;
-                for(var i = 0; i < gridsize; i++){
+
+                //Drawing notegridd
+                for(var i = 0; i < gridSize + 6; i++){
                     ctx.strokeRect(10, 50+i*boxSize, boxSize, boxSize);
 
                     ctx.save();
                     ctx.beginPath();
-                    ctx.moveTo(500,50+i*boxSize);
+                    ctx.moveTo(900,50+i*boxSize);
                     ctx.lineTo(10,50+i*boxSize);
                     ctx.strokeStyle = 'grey';
                     ctx.stroke();
