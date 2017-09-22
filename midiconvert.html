@@ -5,13 +5,27 @@
     <title>Tone.js example</title>
     <script src="lib/Tone.js"></script>
     <script src="lib/MidiConvert.js"></script>
+    <script src="notegrid/draw.js"></script>
 </head>
 <body>
+<canvas width="12000" height="800" id="notegrid" style="border:1px solid #c3c3c3;"></canvas>
 <script>
     var synth = new Tone.PolySynth(8).toMaster();
+    var canvas = document.getElementById('notegrid');
+    var ctx = canvas.getContext('2d');
 
     MidiConvert.load("TCPBC jingle.mid", function(midi) {
         console.log(midi.tracks);
+
+
+        drawNoteGrid(ctx);
+        ctx.globalAlpha = 0.7;
+        for (let track of midi.tracks){
+            for (let note of track.notes){
+                drawNote(note, track.channelNumber);
+            }
+        }
+        //
 
         // make sure you set the tempo before you schedule the events
         Tone.Transport.bpm.value = midi.header.bpm;

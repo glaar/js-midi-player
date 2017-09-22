@@ -6,7 +6,7 @@ function drawNoteGrid(ctx) {
 
         // define colors to notes
         var colors = ["w", "b", "w", "b", "w", "b", "w", "w", "b", "w", "b", "w"];
-        var color_index = i % 11;
+        var color_index = i % 12;
 
         if (colors[color_index] === "w") {
             ctx.fillStyle = "#ffffff";
@@ -48,8 +48,25 @@ function drawNoteGrid(ctx) {
     }
 
 }
-function drawNote(note, start, length) {
+function drawNote(tone, channelNumber) {
+
+    let scale = 300;
+    let colors = ["#984002", "#49ef2a", "#ff9c1d", "#f034db"];
 
 
-    console.log("hey");
+
+    /* var notes = ["C", "b", "w", "b", "w", "b", "w", "w", "b", "w", "b", "w"];
+    var note_index = i % 12;
+
+    if (colors[color_index] === "w") {
+        ctx.fillStyle = "#ffffff";
+    }
+    else {
+        ctx.fillStyle = "#000000";
+    }
+    */
+
+    ctx.fillStyle = colors[channelNumber];
+    ctx.fillRect(tone.time * scale, 1500 - tone.midi * 20, tone.duration * scale, 20);
+
 }
