@@ -36,7 +36,7 @@ function Track(track_data, midi) {
         event.velocity = this.read_byte();
 
         if (event.velocity == 0) {
-          /* event considered by convention to be note off becuase of the running status hack */
+          /* event considered by convention to be note off because of the running status hack */
           event.type = 0x8;
         }
         break;
@@ -97,7 +97,7 @@ function Track(track_data, midi) {
         }
         break;
 
-      /* should never reack this far */
+      /* should never reach this far */
       default:
         break;
 

@@ -39,7 +39,7 @@ function Mixer() {
     this.instruments = [];
     for (var i = 0; i < 14; i++) {
         this.instruments[i] = new Instrument(i);
-        this.instruments[i].generate = instruments(i); //setter ulike synthfunksjoner p� ulike midikanaler
+        this.instruments[i].generate = instruments(i); //setter ulike synthfunksjoner på ulike midikanaler
     }
 
     this.handle_event = function(e) {

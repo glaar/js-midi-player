@@ -23,7 +23,7 @@ var drawEvent = function(e) {
     if (midiChannel === 0 && e.type == 0x9) {	//note on
         canvas.width = canvas.width;
 
-        //Drawing notegridd
+        //Drawing note grid
         for (var i = 0; i < gridSize + 6; i++) {
             ctx.strokeRect(10, 50 + i * boxSize, boxSize, boxSize);
 
@@ -37,7 +37,7 @@ var drawEvent = function(e) {
 
             ctx.fillText(noteNumberToNote(62 - i), 20, 70 + (i * boxSize));
         }
-        ctx.fillRect(70, 50 + (19 - (noteNumber - 43)) * boxSize, boxSize, boxSize);
+        ctx.fillRect(70, 50 + (19 - (noteNumber - 43)) * boxSize, boxSize + e.time_to_next_sameevent, boxSize);
 
     }
 };
