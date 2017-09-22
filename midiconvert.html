@@ -2,14 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Tone.js example</title>
+    <script src="lib/Tone.js"></script>
     <script src="lib/MidiConvert.js"></script>
 </head>
 <body>
 <script>
-    MidiConvert.load("jingle.mid", function(midi) {
-        console.log(midi.tracks)
-    })
+    var synth = new Tone.PolySynth(8).toMaster();
+
+    MidiConvert.load("TCPBC jingle.mid", function(midi) {
+        console.log(midi.tracks);
+
+        // make sure you set the tempo before you schedule the events
+        Tone.Transport.bpm.value = midi.header.bpm;
+
+        // pass in the note events from one of the tracks as the second argument to Tone.Part
+        var midiPart = new Tone.Part(
+            function(time, note) {
+                //use the events to play the synth
+                synth.triggerAttackRelease(note.name, note.duration, time, note.velocity)
+            },
+            midi.tracks[3].notes
+        ).start();
+
+        // start the transport to hear the events
+        Tone.Transport.start()
+
+    });
 </script>
 </body>
 </html>
