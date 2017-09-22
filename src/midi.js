@@ -36,7 +36,7 @@ function Track(track_data, midi) {
         event.velocity = this.read_byte();
 
         if (event.velocity == 0) {
-          /* event considered by convention to be note off becuase of the running status hack */
+          /* event considered by convention to be note off because of the running status hack */
           event.type = 0x8;
         }
         break;
@@ -97,7 +97,7 @@ function Track(track_data, midi) {
         }
         break;
 
-      /* should never reack this far */
+      /* should never reach this far */
       default:
         break;
 
@@ -148,7 +148,7 @@ function Midi(file) {
     this.ticks_per_second = (this.time_division & 0x7FFF) * (this.time_division & 0x00FF);
   } else {
 
-    /* time division is in ticke per beat */
+    /* time division is in ticks per beat */
     this.ticks_per_beat = this.time_division & 0x7FFF;
 
     /* we assume a default of 120BPM to begin with */
