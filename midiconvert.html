@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="lib/MidiConvert.js"></script>
+</head>
+<body>
+<script>
+    MidiConvert.load("jingle.mid", function(midi) {
+        console.log(midi.tracks)
+    })
+</script>
+</body>
+</html>
