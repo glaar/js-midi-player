@@ -9,10 +9,19 @@
 </head>
 <body>
 <canvas width="12000" height="800" id="notegrid" style="border:1px solid #c3c3c3;"></canvas>
+
+<div id='content'>
+    <p>Check to play:</p>
+    <input type='checkbox' class='playToggle'> Transport time: <span id='seconds'>0</span>
+</div>
+
 <script>
-    var synth = new Tone.PolySynth(8).toMaster();
-    var canvas = document.getElementById('notegrid');
-    var ctx = canvas.getContext('2d');
+    let synth = new Tone.PolySynth(8).toMaster();
+    let canvas = document.getElementById('notegrid');
+    let ctx = canvas.getContext('2d');
+
+
+
 
     MidiConvert.load("TCPBC jingle.mid", function(midi) {
         console.log(midi.tracks);
@@ -31,7 +40,7 @@
         Tone.Transport.bpm.value = midi.header.bpm;
 
         // pass in the note events from one of the tracks as the second argument to Tone.Part
-        var midiPart = new Tone.Part(
+        let midiPart = new Tone.Part(
             function(time, note) {
                 //use the events to play the synth
                 synth.triggerAttackRelease(note.name, note.duration, time, note.velocity)
@@ -39,10 +48,41 @@
             midi.tracks[3].notes
         ).start();
 
-        // start the transport to hear the events
-        Tone.Transport.start()
+        window.requestAnimationFrame(draw);
 
     });
+
+    function updateTime(){
+        let seconds = Tone.Transport.seconds.toFixed(2);
+
+        requestAnimationFrame(updateTime);
+        //Tries to draw animate the playhead
+        requestAnimationFrame(draw);
+        //the time elapsed in seconds
+        document.querySelector('#seconds').textContent = seconds;
+    }
+
+    updateTime();
+
+    //start/stop the transport
+    document.querySelector('.playToggle').addEventListener('change', function(e){
+        if (e.target.checked){
+            Tone.Transport.start()
+        } else {
+            Tone.Transport.stop()
+        }
+    });
+
+    //Tries to draw playhead
+    function draw(){
+
+        let seconds = Tone.Transport.seconds.toFixed(2);
+        let x = parseInt(seconds);
+
+        ctx.moveTo(x,0);
+        ctx.lineTo(x, canvas.height);
+    };
+
 </script>
 </body>
 </html>
