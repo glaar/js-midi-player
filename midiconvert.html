@@ -57,7 +57,7 @@
 
         requestAnimationFrame(updateTime);
         //Tries to draw animate the playhead
-        requestAnimationFrame(draw);
+        requestAnimationFrame(drawPlayhead);
         //the time elapsed in seconds
         document.querySelector('#seconds').textContent = seconds;
     }
@@ -74,7 +74,7 @@
     });
 
     //Tries to draw playhead
-    function draw(){
+    function drawPlayhead(){
 
         let seconds = Tone.Transport.seconds.toFixed(2);
         let x = parseInt(seconds);
