@@ -6,6 +6,7 @@
     <script src="lib/Tone.js"></script>
     <script src="lib/MidiConvert.js"></script>
     <script src="notegrid/draw.js"></script>
+    <script src="src/helpers.js"></script>
 </head>
 <body>
 <canvas width="12000" height="800" id="notegrid" style="border:1px solid #c3c3c3;"></canvas>
@@ -19,11 +20,13 @@
     let synth = new Tone.PolySynth(8).toMaster();
     let canvas = document.getElementById('notegrid');
     let ctx = canvas.getContext('2d');
+    let midiFilename = findGetParameter('song');
+    if (!midiFilename) {
+        alert('No song is selected, defaulting to "TCPBC jingle.mid"');
+        midiFilename = 'TCPBC jingle.mid';
+    }
 
-
-
-
-    MidiConvert.load("TCPBC jingle.mid", function(midi) {
+    MidiConvert.load(midiFilename, function(midi) {
         console.log(midi.tracks);
 
 
