@@ -1,0 +1,31 @@
+body, html {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.wrapper {
+  height: 100%;
+  position: relative;
+}
+
+.sidebar {
+  position: absolute;
+  background-color: yellow;
+  width: 18%;
+  min-width: 180px;
+}
+
+#piano-roll-canvas {
+  position: absolute;
+  right: 0;
+}
+
+.channel {
+  border: solid 1px #999;
+}
+
+.channel:last-child {
+  border: none;
+}
