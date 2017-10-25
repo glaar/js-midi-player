@@ -9,12 +9,15 @@
     <script src="src/helpers.js"></script>
 </head>
 <body>
-<canvas width="12000" height="800" id="notegrid" style="border:1px solid #c3c3c3;"></canvas>
 
-<div id='content'>
-    <p>Check to play:</p>
-    <input type='checkbox' class='playToggle'> Transport time: <span id='seconds'>0</span>
+<div class="wrapper">
+    <div id='content'>
+        <p>Check to play:</p>
+        <input type='checkbox' class='playToggle'> Transport time: <span id='seconds'>0</span>
+    </div>
+    <canvas width="12000" height="800" id="notegrid" style="border:1px solid #c3c3c3;"></canvas>
 </div>
+
 
 <script>
     let synth = new Tone.PolySynth(8).toMaster();
@@ -82,7 +85,7 @@
 
         ctx.moveTo(x,0);
         ctx.lineTo(x, canvas.height);
-    };
+    }
 
 </script>
 </body>
