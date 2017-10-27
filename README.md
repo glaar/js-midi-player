@@ -1,3 +1,3 @@
-# Usage
+# js-midi-player
 
-Serving this project requires a PHP server. On Ubuntu, you can do e.g. `sudo apt-get install php5-cli` and then `php -S localhost:5050`. Use WAMP on Windows, MAMP on Mac. 
+Serve this project with your favorite HTTP server and visit index.html with your favorite browser
