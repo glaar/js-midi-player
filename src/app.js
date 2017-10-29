@@ -34,16 +34,16 @@ let app = new Vue({
             ordering: 0
           };
 
-          if (channel.track.name.indexOf('bass') !== -1) {
+          if (channel.track.name.toLowerCase().indexOf('bass') !== -1) {
             channel.icon = `bass.png`;
             channel.ordering = 3;
-          } else if (channel.track.name.indexOf('tenor') !== -1) {
+          } else if (channel.track.name.toLowerCase().indexOf('tenor') !== -1) {
             channel.icon = `tenor.png`;
             channel.ordering = 2;
-          } else if (channel.track.name.indexOf('alt') !== -1) {
+          } else if (channel.track.name.toLowerCase().indexOf('alt') !== -1) {
             channel.icon = `alto.png`;
             channel.ordering = 1;
-          } else if (channel.track.name.indexOf('sopran') !== -1) {
+          } else if (channel.track.name.toLowerCase().indexOf('sopran') !== -1) {
             channel.icon = `soprano.png`;
             channel.ordering = 0;
           }
