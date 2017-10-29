@@ -50,12 +50,12 @@ Drawer.prototype.drawNoteGrid = function () {
   this.ctx.lineWidth = 3;
   this.ctx.beginPath();
   this.ctx.moveTo(50, 0);
-  this.ctx.lineTo(50, this.canvas.width);
+  this.ctx.lineTo(50, this.canvas.height);
   this.ctx.stroke();
   this.ctx.restore();
 
   // Draw horizontal lines
-  for (let i = 1; i < 30; i++) {
+  for (let i = 1; i < this.numNotesInExtent; i++) {
     this.ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
     let length = this.canvas.width;
     let y = i * this.heightPerNote;
