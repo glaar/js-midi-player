@@ -1,9 +1,9 @@
 function drawNoteGrid(canvas, ctx) {
-  // drawing notes
+  // Draw piano keys
   for (let i = 0; i < 39; i++) {
     let y = i * 20;
 
-    // define colors to piano tangents
+    // Define piano key colors
     let colors = ["w", "b", "w", "b", "w", "b", "w", "w", "b", "w", "b", "w"];
     let color_index = i % 12;
 
@@ -17,13 +17,16 @@ function drawNoteGrid(canvas, ctx) {
     ctx.fillRect(0, y, 50, 20);
   }
 
-  // draw line to separate piano tangent from note grid
+  // Draw line to separate piano tangent from note grid
+  ctx.save();
+  ctx.lineWidth = 3;
   ctx.beginPath();
   ctx.moveTo(50, 0);
   ctx.lineTo(50, canvas.width);
   ctx.stroke();
+  ctx.restore();
 
-  // drawing horizontal lines
+  // Draw horizontal lines
   for (let i = 1; i < 30; i++) {
     ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
     let length = canvas.width;
@@ -35,7 +38,7 @@ function drawNoteGrid(canvas, ctx) {
     ctx.stroke();
   }
 
-  // drawing vertical lines
+  // Draw vertical lines
   /*
   for (let i = 1; i < 30; i++) {
     let length = canvas.height;
