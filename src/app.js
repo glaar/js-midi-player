@@ -7,7 +7,7 @@ let app = new Vue({
     channels: null
   },
   created: function() {
-    this.synth = new Tone.PolySynth(8).toMaster();
+    this.synth = new Tone.PolySynth(4).toMaster();
     this.canvas = document.getElementById('piano-roll-canvas');
     this.ctx = this.canvas.getContext('2d');
     this.midiFilename = findGetParameter('song');
