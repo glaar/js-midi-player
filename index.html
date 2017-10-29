@@ -9,19 +9,25 @@
     <script src="src/draw.js"></script>
     <script src="src/helpers.js"></script>
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 <body>
 
 <div class="wrapper">
     <div class="sidebar" id="app">
-        <div class="channel" v-for="channel in channels">
-            <div>{{ channel.track.name }}</div>
-            <label>
-                <input type="checkbox" v-model="channel.isActive">
-                Active
-            </label>
-
+        <header>C# Player</header>
+        <hr>
+        <div class="channel-list">
+            <div class="channel noselect" v-for="(channel, index) in channels" v-on:click="toggleChannel(index)">
+                <span class="channel-icon"><img v-bind:src="'img/' + channel.icon"></span>
+                <span class="channel-name">{{ channel.track.name }}</span>
+                <span class="channel-toggle">
+                    <img v-bind:src="channel.isActive ? 'img/flip_switch_on.png' : 'img/flip_switch_off.png'">
+                    <input type="checkbox" v-model="channel.isActive">
+                </span>
+            </div>
         </div>
+
         <input type='checkbox' v-model="isPlaying" v-on:change="togglePlay"> Playing: {{ isPlaying }}
         <br>Time: {{ time }}
     </div>

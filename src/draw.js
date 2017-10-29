@@ -8,35 +8,36 @@ function drawNoteGrid(canvas, ctx) {
     let color_index = i % 12;
 
     if (colors[color_index] === "w") {
-      ctx.fillStyle = "#ffffff";
+      ctx.fillStyle = "#fafafa";
     }
     else {
-      ctx.fillStyle = "#000000";
+      ctx.fillStyle = "#222";
     }
 
     ctx.fillRect(0, y, 50, 20);
   }
 
-  //draw line to separte piano tagent from notegrid
+  // draw line to separate piano tangent from note grid
+  ctx.beginPath();
   ctx.moveTo(50, 0);
   ctx.lineTo(50, canvas.width);
   ctx.stroke();
 
   // drawing horizontal lines
-  for (let i = 1; i < 40; i++) {
-
-    ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+  for (let i = 1; i < 30; i++) {
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
     let length = canvas.width;
     let y = i * 20;
 
+    ctx.beginPath();
     ctx.moveTo(0, y);
     ctx.lineTo(length, y);
     ctx.stroke();
   }
 
   // drawing vertical lines
+  /*
   for (let i = 1; i < 30; i++) {
-
     let length = canvas.height;
     let x = i * 300;
 
@@ -44,6 +45,7 @@ function drawNoteGrid(canvas, ctx) {
     ctx.lineTo(x, length);
     ctx.stroke();
   }
+  */
 }
 
 function drawNote(ctx, tone, channelNumber) {
@@ -52,6 +54,8 @@ function drawNote(ctx, tone, channelNumber) {
 
   ctx.fillStyle = colors[channelNumber];
   ctx.fillRect(tone.time * scale, 1500 - tone.midi * 20, tone.duration * scale, 20);
+  ctx.strokeWidth = 1;
+  ctx.strokeRect(tone.time * scale, 1500 - tone.midi * 20, tone.duration * scale, 20);
 }
 
 function draw(canvas, ctx, channels) {

@@ -23,10 +23,23 @@ let app = new Vue({
       that.channels = [];
       for (let track of midi.tracks) {
         if (track.channelNumber >= 0) {
-          that.channels.push({
+          let channel = {
             track: track,
-            isActive: true
-          });
+            isActive: true,
+            icon: `melody.png`
+          };
+          
+          if (channel.track.name.indexOf('bass') !== -1) {
+            channel.icon = `bass.png`;
+          } else if (channel.track.name.indexOf('tenor') !== -1) {
+            channel.icon = `tenor.png`;
+          } else if (channel.track.name.indexOf('alt') !== -1) {
+            channel.icon = `alto.png`;
+          } else if (channel.track.name.indexOf('sopran') !== -1) {
+            channel.icon = `soprano.png`;
+          }
+
+          that.channels.push(channel);
         }
       }
 
@@ -54,6 +67,9 @@ let app = new Vue({
       } else {
         Tone.Transport.stop()
       }
+    },
+    toggleChannel: function(channelIndex) {
+      this.channels[channelIndex].isActive = !this.channels[channelIndex].isActive;
     }
   }
 });
