@@ -49,7 +49,7 @@ function drawNoteGrid(canvas, ctx) {
 }
 
 function drawNote(ctx, note, channelNumber) {
-  let scale = 300;
+  let scale = 220;
   let colors = ["#984002", "#49ef2a", "#ff9c1d", "#f034db"];
 
   ctx.fillStyle = colors[channelNumber];
