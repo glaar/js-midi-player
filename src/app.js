@@ -82,7 +82,9 @@ let app = new Vue({
       }
     },
     toggleChannel: function(channelIndex) {
-      this.channels[channelIndex].isActive = !this.channels[channelIndex].isActive;
+      const channel = this.channels[channelIndex];
+      channel.isActive = !channel.isActive;
+      channel.part.mute = !channel.isActive;
     },
   }
 });
