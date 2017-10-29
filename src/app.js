@@ -36,6 +36,9 @@ let app = new Vue({
 
           if (channel.track.name.toLowerCase().indexOf('bass') !== -1) {
             channel.icon = `bass.png`;
+            channel.ordering = 5;
+          } else if (channel.track.name.toLowerCase().indexOf('bariton') !== -1) {
+            channel.icon = `baritone.png`;
             channel.ordering = 4;
           } else if (channel.track.name.toLowerCase().indexOf('tenor') !== -1) {
             channel.icon = `tenor.png`;
