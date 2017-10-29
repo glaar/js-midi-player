@@ -20,7 +20,9 @@ let app = new Vue({
     this.noteNumberExtent = [48, 60];
 
     MidiConvert.load(`songs/${that.midiFilename}`, function(midi) {
-      that.loadingMidi = false;
+      // make sure you set the tempo before you schedule the events
+      Tone.Transport.bpm.value = midi.header.bpm;
+
       that.channels = [];
       for (let track of midi.tracks) {
         if (track.channelNumber >= 0) {
@@ -40,6 +42,14 @@ let app = new Vue({
             channel.icon = `soprano.png`;
           }
 
+          channel.part = new Tone.Part(
+            function(time, note) {
+              // use the events to play the synth
+              that.synth.triggerAttackRelease(note.name, note.duration, time, note.velocity)
+            },
+            track.notes
+          ).start(0);
+
           that.channels.push(channel);
 
           for (const note of track.notes) {
@@ -52,23 +62,14 @@ let app = new Vue({
         }
       }
 
-      // make sure you set the tempo before you schedule the events
-      Tone.Transport.bpm.value = midi.header.bpm;
-
-      // pass in the note events from one of the tracks as the second argument to Tone.Part
-      let midiPart = new Tone.Part(
-        function(time, note) {
-          //use the events to play the synth
-          that.synth.triggerAttackRelease(note.name, note.duration, time, note.velocity)
-        },
-        midi.tracks[3].notes
-      ).start();
+      that.loadingMidi = false;
 
       setDimensions();
 
       render();
 
       window.addEventListener('keyup', onKeyUp);
+
     });
   },
   methods: {
