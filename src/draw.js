@@ -53,9 +53,9 @@ function drawNote(ctx, note, channelNumber) {
   let colors = ["#984002", "#49ef2a", "#ff9c1d", "#f034db"];
 
   ctx.fillStyle = colors[channelNumber];
-  ctx.fillRect(50 + note.time * scale, 1500 - note.midi * 20, note.duration * scale, 20);
+  ctx.fillRect(50 + note.time * scale, 1420 - note.midi * 20, note.duration * scale, 20);
   ctx.strokeWidth = 1;
-  ctx.strokeRect(50 + note.time * scale, 1500 - note.midi * 20, note.duration * scale, 20);
+  ctx.strokeRect(50 + note.time * scale, 1420 - note.midi * 20, note.duration * scale, 20);
 }
 
 function draw(canvas, ctx, channels) {
