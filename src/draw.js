@@ -57,7 +57,7 @@ Drawer.prototype.drawNoteGrid = function () {
 
 Drawer.prototype.drawNote = function (note, channelNumber) {
   let scale = 220;
-  let colors = ["#984002", "#49ef2a", "#ff9c1d", "#f034db"];
+  let colors = ["#7F7DD8", "#67BA23", "#CC7E4B", "#A8579A"];
 
   this.ctx.fillStyle = colors[channelNumber];
   const x = 50 + (note.time - app.time) * scale;
