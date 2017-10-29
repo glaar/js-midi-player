@@ -5,6 +5,8 @@ function Drawer(canvas, app) {
   this.numNotesInExtent = null;
   this.app = app;
   this.keyColors = ["w", "b", "w", "b", "w", "b", "w", "w", "b", "w", "b", "w"];
+  this.noteColors = ["#7F7DD8", "#67BA23", "#CC7E4B", "#A8579A"];
+  this.noteScale = 220;
 }
 
 Drawer.prototype.draw = function draw() {
@@ -19,13 +21,18 @@ Drawer.prototype.draw = function draw() {
 
   for (let channel of this.app.channels) {
     if (channel.isActive) {
+      this.ctx.save();
+      this.ctx.fillStyle = this.noteColors[channel.track.channelNumber];
+      this.ctx.lineWidth = 1;
+
       for (let note of channel.track.notes) {
-        const isWithinBounds = this.drawNote(note, channel.track.channelNumber);
+        const isWithinBounds = this.drawNote(note);
         if (!isWithinBounds) {
           // No need to keep drawing if the rest of the notes are out of bounds
           break;
         }
       }
+      this.ctx.restore();
     }
   }
   this.ctx.restore();
@@ -55,17 +62,12 @@ Drawer.prototype.drawNoteGrid = function () {
   this.ctx.fillRect(50, 0, 3, this.canvas.height);
 };
 
-Drawer.prototype.drawNote = function (note, channelNumber) {
-  let scale = 220;
-  let colors = ["#7F7DD8", "#67BA23", "#CC7E4B", "#A8579A"];
-
-  this.ctx.fillStyle = colors[channelNumber];
-  const x = 50 + (note.time - app.time) * scale;
+Drawer.prototype.drawNote = function (note) {
+  const x = 50 + (note.time - app.time) * this.noteScale;
   const y = this.getYByNoteNumber(note.midi);
-  const width = note.duration * scale;
+  const width = note.duration * this.noteScale;
   const height = this.heightPerNote;
   this.ctx.fillRect(x, y, width, height);
-  this.ctx.lineWidth = 1;
   this.ctx.strokeRect(x, y, width, height);
 
   return x < this.canvas.width;  // false if out of bounds
