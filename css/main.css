@@ -6,6 +6,10 @@ body, html {
   font-family: 'Roboto', sans-serif;
 }
 
+[v-cloak] {
+  display: none;
+}
+
 hr {
   border: none;
   height: 1px;

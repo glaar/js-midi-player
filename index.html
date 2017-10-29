@@ -6,6 +6,25 @@
     <script src="lib/Tone.js"></script>
     <script src="lib/MidiConvert.js"></script>
     <script src="lib/vue.js"></script>
+    <script src="lib/modernizr-custom.js"></script>
+    <script>
+        if (!Modernizr.arrow || !Modernizr.templatestrings) {
+            alert(
+                'Error: This browser does not properly support ES6. Therefore, this web app may not work properly.' +
+                ' Please use a more modern browser.'
+            );
+        } else if (!Modernizr.webaudio) {
+            alert(
+                'Error: This browser does not support Web Audio API. Therefore, this web app may not work properly.' +
+                ' Please use a more modern browser.'
+            );
+        } else if (!Modernizr.canvas) {
+            alert(
+                'Error: This browser does not support canvas. Therefore, this web app may not work properly.' +
+                ' Please use a more modern browser.'
+            )
+        }
+    </script>
     <script src="src/draw.js"></script>
     <script src="src/helpers.js"></script>
     <link rel="stylesheet" type="text/css" href="css/main.css">
@@ -14,7 +33,7 @@
 <body>
 
 <div class="wrapper">
-    <div class="sidebar" id="app">
+    <div class="sidebar" id="app" v-cloak>
         <header>C# Player</header>
         <hr>
         <div class="channel-list">
