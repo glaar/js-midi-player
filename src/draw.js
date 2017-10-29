@@ -59,6 +59,7 @@ Drawer.prototype.drawNoteGrid = function () {
   }
 
   // Draw line to separate piano tangent from note grid
+  this.ctx.fillStyle = "#222";
   this.ctx.fillRect(50, 0, 3, this.canvas.height);
 };
 
