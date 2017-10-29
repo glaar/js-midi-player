@@ -28,12 +28,12 @@ Drawer.prototype.draw = function draw() {
 
 Drawer.prototype.drawNoteGrid = function () {
   // Draw piano keys
-  for (let i = 0; i < 39; i++) {
-    let y = i * this.heightPerNote;
+  for (let noteNumber = this.app.noteNumberExtent[0]; noteNumber <= this.app.noteNumberExtent[1]; noteNumber++) {
+    let y = this.getYByNoteNumber(noteNumber);
 
     // Define piano key colors
     let colors = ["w", "b", "w", "b", "w", "b", "w", "w", "b", "w", "b", "w"];
-    let color_index = i % 12;
+    let color_index = noteNumber % 12;
 
     if (colors[color_index] === "w") {
       this.ctx.fillStyle = "#fafafa";
@@ -73,7 +73,7 @@ Drawer.prototype.drawNote = function (note, channelNumber) {
 
   this.ctx.fillStyle = colors[channelNumber];
   const x = 50 + (note.time - app.time) * scale;
-  const y = 71 * this.heightPerNote - note.midi * this.heightPerNote;
+  const y = this.getYByNoteNumber(note.midi);
   const width = note.duration * scale;
   const height = this.heightPerNote;
   this.ctx.fillRect(x, y, width, height);
@@ -82,5 +82,6 @@ Drawer.prototype.drawNote = function (note, channelNumber) {
 };
 
 Drawer.prototype.getYByNoteNumber = function(noteNumber) {
-
+  const relativeNoteNumber = noteNumber - this.app.noteNumberExtent[0];
+  return this.canvas.height - this.heightPerNote * relativeNoteNumber - this.heightPerNote;
 };
