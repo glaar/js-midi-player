@@ -17,8 +17,9 @@ let app = new Vue({
     }
 
     let that = this;
+    this.noteNumberExtent = [48, 60];
 
-    MidiConvert.load(that.midiFilename, function(midi) {
+    MidiConvert.load(`songs/${that.midiFilename}`, function(midi) {
       that.loadingMidi = false;
       that.channels = [];
       for (let track of midi.tracks) {
@@ -40,8 +41,18 @@ let app = new Vue({
           }
 
           that.channels.push(channel);
+
+          for (const note of track.notes) {
+            if (note.midi < that.noteNumberExtent[0]) {
+              that.noteNumberExtent[0] = note.midi;
+            } else if (note.midi > that.noteNumberExtent[1]) {
+              that.noteNumberExtent[1] = note.midi;
+            }
+          }
         }
       }
+
+      console.log(that.noteNumberExtent);
 
       // make sure you set the tempo before you schedule the events
       Tone.Transport.bpm.value = midi.header.bpm;
@@ -52,7 +63,7 @@ let app = new Vue({
           //use the events to play the synth
           that.synth.triggerAttackRelease(note.name, note.duration, time, note.velocity)
         },
-        midi.tracks[3].notes
+        midi.tracks[2].notes
       ).start();
 
       setDimensions();

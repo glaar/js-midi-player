@@ -48,14 +48,14 @@ function drawNoteGrid(canvas, ctx) {
   */
 }
 
-function drawNote(ctx, tone, channelNumber) {
+function drawNote(ctx, note, channelNumber) {
   let scale = 300;
   let colors = ["#984002", "#49ef2a", "#ff9c1d", "#f034db"];
 
   ctx.fillStyle = colors[channelNumber];
-  ctx.fillRect(tone.time * scale, 1500 - tone.midi * 20, tone.duration * scale, 20);
+  ctx.fillRect(50 + note.time * scale, 1500 - note.midi * 20, note.duration * scale, 20);
   ctx.strokeWidth = 1;
-  ctx.strokeRect(tone.time * scale, 1500 - tone.midi * 20, tone.duration * scale, 20);
+  ctx.strokeRect(50 + note.time * scale, 1500 - note.midi * 20, note.duration * scale, 20);
 }
 
 function draw(canvas, ctx, channels) {
