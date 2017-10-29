@@ -36,14 +36,17 @@ let app = new Vue({
 
           if (channel.track.name.toLowerCase().indexOf('bass') !== -1) {
             channel.icon = `bass.png`;
-            channel.ordering = 3;
+            channel.ordering = 4;
           } else if (channel.track.name.toLowerCase().indexOf('tenor') !== -1) {
             channel.icon = `tenor.png`;
-            channel.ordering = 2;
+            channel.ordering = 3;
           } else if (channel.track.name.toLowerCase().indexOf('alt') !== -1) {
             channel.icon = `alto.png`;
-            channel.ordering = 1;
+            channel.ordering = 2;
           } else if (channel.track.name.toLowerCase().indexOf('sopran') !== -1) {
+            channel.icon = `soprano.png`;
+            channel.ordering = 1;
+          } else if (channel.track.name.toLowerCase().indexOf('solo') !== -1) {
             channel.icon = `soprano.png`;
             channel.ordering = 0;
           }
