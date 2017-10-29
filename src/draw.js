@@ -64,7 +64,7 @@ Drawer.prototype.drawNoteGrid = function () {
 };
 
 Drawer.prototype.drawNote = function (note) {
-  const x = 50 + (note.time - app.time) * this.noteScale;
+  const x = 55 + (note.time - app.time) * this.noteScale;
   const y = this.getYByNoteNumber(note.midi);
   const width = note.duration * this.noteScale;
   const height = this.heightPerNote;
