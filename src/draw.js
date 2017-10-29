@@ -54,7 +54,7 @@ function drawNote(ctx, note, channelNumber) {
 
   ctx.fillStyle = colors[channelNumber];
   ctx.fillRect(50 + note.time * scale, 1420 - note.midi * 20, note.duration * scale, 20);
-  ctx.strokeWidth = 1;
+  ctx.lineWidth = 2;
   ctx.strokeRect(50 + note.time * scale, 1420 - note.midi * 20, note.duration * scale, 20);
 }
 
