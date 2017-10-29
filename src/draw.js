@@ -4,6 +4,7 @@ function Drawer(canvas, app) {
   this.heightPerNote = null;
   this.numNotesInExtent = null;
   this.app = app;
+  this.keyColors = ["w", "b", "w", "b", "w", "b", "w", "w", "b", "w", "b", "w"];
 }
 
 Drawer.prototype.draw = function draw() {
@@ -19,7 +20,11 @@ Drawer.prototype.draw = function draw() {
   for (let channel of this.app.channels) {
     if (channel.isActive) {
       for (let note of channel.track.notes) {
-        this.drawNote(note, channel.track.channelNumber);
+        const isWithinBounds = this.drawNote(note, channel.track.channelNumber);
+        if (!isWithinBounds) {
+          // No need to keep drawing if the rest of the notes are out of bounds
+          break;
+        }
       }
     }
   }
@@ -27,44 +32,27 @@ Drawer.prototype.draw = function draw() {
 };
 
 Drawer.prototype.drawNoteGrid = function () {
-  // Draw piano keys
   for (let noteNumber = this.app.noteNumberExtent[0]; noteNumber <= this.app.noteNumberExtent[1]; noteNumber++) {
     let y = this.getYByNoteNumber(noteNumber);
 
-    // Define piano key colors
-    let colors = ["w", "b", "w", "b", "w", "b", "w", "w", "b", "w", "b", "w"];
-    let color_index = noteNumber % 12;
-
-    if (colors[color_index] === "w") {
+    // Draw piano key
+    let colorIndex = noteNumber % 12;
+    if (this.keyColors[colorIndex] === "w") {
       this.ctx.fillStyle = "#fafafa";
-    }
-    else {
+    } else {
       this.ctx.fillStyle = "#222";
     }
-
     this.ctx.fillRect(0, y, 50, this.heightPerNote);
+
+    // Draw horizontal grid line
+    this.ctx.save();
+    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+    this.ctx.fillRect(0, y - 1, this.canvas.width, 2);
+    this.ctx.restore();
   }
 
   // Draw line to separate piano tangent from note grid
-  this.ctx.save();
-  this.ctx.lineWidth = 3;
-  this.ctx.beginPath();
-  this.ctx.moveTo(50, 0);
-  this.ctx.lineTo(50, this.canvas.height);
-  this.ctx.stroke();
-  this.ctx.restore();
-
-  // Draw horizontal lines
-  for (let i = 1; i < this.numNotesInExtent; i++) {
-    this.ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
-    let length = this.canvas.width;
-    let y = i * this.heightPerNote;
-
-    this.ctx.beginPath();
-    this.ctx.moveTo(0, y);
-    this.ctx.lineTo(length, y);
-    this.ctx.stroke();
-  }
+  this.ctx.fillRect(50, 0, 3, this.canvas.height);
 };
 
 Drawer.prototype.drawNote = function (note, channelNumber) {
@@ -77,8 +65,10 @@ Drawer.prototype.drawNote = function (note, channelNumber) {
   const width = note.duration * scale;
   const height = this.heightPerNote;
   this.ctx.fillRect(x, y, width, height);
-  this.ctx.lineWidth = 2;
+  this.ctx.lineWidth = 1;
   this.ctx.strokeRect(x, y, width, height);
+
+  return x < this.canvas.width;  // false if out of bounds
 };
 
 Drawer.prototype.getYByNoteNumber = function(noteNumber) {
