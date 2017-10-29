@@ -30,7 +30,7 @@
         <div class="controls no-select" v-on:click="togglePlay">
             <hr>
             <img v-bind:src="isPlaying ? 'img/pause.png' : 'img/play.png'">
-            <br>Time: {{ time }}
+            <br>Time: {{ time.toFixed(1) }}
         </div>
     </div>
     <canvas ref="canvas" id="piano-roll-canvas"></canvas>

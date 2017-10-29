@@ -1,7 +1,7 @@
 let app = new Vue({
   el: '#app',
   data: {
-    time: "0",
+    time: 0,
     isPlaying: false,
     loadingMidi: true,
     channels: null
@@ -52,8 +52,6 @@ let app = new Vue({
         }
       }
 
-      console.log(that.noteNumberExtent);
-
       // make sure you set the tempo before you schedule the events
       Tone.Transport.bpm.value = midi.header.bpm;
 
@@ -63,7 +61,7 @@ let app = new Vue({
           //use the events to play the synth
           that.synth.triggerAttackRelease(note.name, note.duration, time, note.velocity)
         },
-        midi.tracks[2].notes
+        midi.tracks[3].notes
       ).start();
 
       setDimensions();
@@ -102,7 +100,7 @@ function render() {
   requestAnimationFrame(render);
 
   // The time elapsed in seconds
-  app.time = Tone.Transport.seconds.toFixed(2);
+  app.time = Tone.Transport.seconds;
 
   draw(app.canvas, app.ctx, app.channels);
 }
