@@ -9,7 +9,7 @@ let app = new Vue({
   created: function() {
     this.synth = new Tone.PolySynth(4).toMaster();
     this.canvas = document.getElementById('piano-roll-canvas');
-    this.drawer = new Drawer(this.canvas);
+    this.drawer = new Drawer(this.canvas, this);
 
     this.midiFilename = findGetParameter('song');
     if (!this.midiFilename) {
@@ -111,7 +111,7 @@ function render() {
 
   // The time elapsed in seconds
   app.time = Tone.Transport.seconds;
-  app.drawer.draw(app.channels);
+  app.drawer.draw();
 }
 
 function setDimensions() {
