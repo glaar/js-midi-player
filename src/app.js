@@ -9,7 +9,8 @@ let app = new Vue({
   created: function() {
     this.synth = new Tone.PolySynth(4).toMaster();
     this.canvas = document.getElementById('piano-roll-canvas');
-    this.ctx = this.canvas.getContext('2d');
+    this.drawer = new Drawer(this.canvas);
+
     this.midiFilename = findGetParameter('song');
     if (!this.midiFilename) {
       //alert('No song is selected, defaulting to "TCPBC jingle.mid"');
@@ -29,17 +30,22 @@ let app = new Vue({
           let channel = {
             track: track,
             isActive: true,
-            icon: `melody.png`
+            icon: `melody.png`,
+            ordering: 0
           };
 
           if (channel.track.name.indexOf('bass') !== -1) {
             channel.icon = `bass.png`;
+            channel.ordering = 3;
           } else if (channel.track.name.indexOf('tenor') !== -1) {
             channel.icon = `tenor.png`;
+            channel.ordering = 2;
           } else if (channel.track.name.indexOf('alt') !== -1) {
             channel.icon = `alto.png`;
+            channel.ordering = 1;
           } else if (channel.track.name.indexOf('sopran') !== -1) {
             channel.icon = `soprano.png`;
+            channel.ordering = 0;
           }
 
           channel.part = new Tone.Part(
@@ -61,6 +67,7 @@ let app = new Vue({
           }
         }
       }
+      that.channels.sort((a, b) => a.ordering - b.ordering);
 
       that.loadingMidi = false;
 
@@ -104,8 +111,7 @@ function render() {
 
   // The time elapsed in seconds
   app.time = Tone.Transport.seconds;
-
-  draw(app.canvas, app.ctx, app.channels);
+  app.drawer.draw(app.channels);
 }
 
 function setDimensions() {
