@@ -26,6 +26,7 @@
     <script src="lib/Tone.js"></script>
     <script src="lib/MidiConvert.js"></script>
     <script src="lib/vue.js"></script>
+    <script src="src/filters.js"></script>
     <script src="src/draw.js"></script>
     <script src="src/helpers.js"></script>
     <link rel="stylesheet" type="text/css" href="css/main.css">
@@ -50,7 +51,7 @@
         <div class="controls no-select" v-on:click="togglePlay">
             <hr>
             <img v-bind:src="isPlaying ? 'img/pause.png' : 'img/play.png'">
-            <br>Time: {{ time.toFixed(1) }}
+            <br>{{ time | formatDuration }}
         </div>
     </div>
     <canvas ref="canvas" id="piano-roll-canvas"></canvas>
