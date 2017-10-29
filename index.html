@@ -18,18 +18,20 @@
         <header>C# Player</header>
         <hr>
         <div class="channel-list">
-            <div class="channel noselect" v-for="(channel, index) in channels" v-on:click="toggleChannel(index)">
+            <div class="channel no-select" v-for="(channel, index) in channels" v-on:click="toggleChannel(index)">
                 <span class="channel-icon"><img v-bind:src="'img/' + channel.icon"></span>
                 <span class="channel-name">{{ channel.track.name }}</span>
                 <span class="channel-toggle">
                     <img v-bind:src="channel.isActive ? 'img/flip_switch_on.png' : 'img/flip_switch_off.png'">
-                    <input type="checkbox" v-model="channel.isActive">
                 </span>
             </div>
         </div>
 
-        <input type='checkbox' v-model="isPlaying" v-on:change="togglePlay"> Playing: {{ isPlaying }}
-        <br>Time: {{ time }}
+        <div class="controls no-select" v-on:click="togglePlay">
+            <hr>
+            <img v-bind:src="isPlaying ? 'img/pause.png' : 'img/play.png'">
+            <br>Time: {{ time }}
+        </div>
     </div>
     <canvas ref="canvas" id="piano-roll-canvas"></canvas>
 </div>

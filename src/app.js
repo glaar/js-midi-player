@@ -28,7 +28,7 @@ let app = new Vue({
             isActive: true,
             icon: `melody.png`
           };
-          
+
           if (channel.track.name.indexOf('bass') !== -1) {
             channel.icon = `bass.png`;
           } else if (channel.track.name.indexOf('tenor') !== -1) {
@@ -58,10 +58,13 @@ let app = new Vue({
       setDimensions();
 
       render();
+
+      window.addEventListener('keyup', onKeyUp);
     });
   },
   methods: {
     togglePlay: function() {
+      this.isPlaying = !this.isPlaying;
       if (this.isPlaying) {
         Tone.Transport.start()
       } else {
@@ -70,9 +73,19 @@ let app = new Vue({
     },
     toggleChannel: function(channelIndex) {
       this.channels[channelIndex].isActive = !this.channels[channelIndex].isActive;
-    }
+    },
   }
 });
+
+function onKeyUp(e) {
+  console.log('keyUp', e);
+  if (e.keyCode !== 32) {
+    return;
+  }
+  e.preventDefault();
+  e.stopPropagation();
+  app.togglePlay();
+}
 
 function render() {
   requestAnimationFrame(render);

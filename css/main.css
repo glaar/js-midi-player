@@ -41,7 +41,7 @@ hr {
   right: 0;
 }
 
-.noselect {
+.no-select {
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */
@@ -82,10 +82,6 @@ hr {
   line-height: 40px;
 }
 
-.channel input[type=checkbox] {
-  display: none;
-}
-
 .channel .channel-toggle {
   height: 40px;
   position: absolute;
@@ -96,4 +92,23 @@ hr {
 
 .channel .channel-toggle img {
   height: 32px;
+}
+
+.sidebar .controls {
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 80px;
+  text-align: center;
+}
+
+.sidebar .controls img {
+  width: 50px;
+  height: 50px;
+}
+
+.sidebar .controls:hover {
+  background-color: #464A51;
 }
