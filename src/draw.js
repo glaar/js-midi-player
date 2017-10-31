@@ -6,7 +6,8 @@ function Drawer(canvas, app) {
   this.app = app;
   this.keyColors = ["w", "b", "w", "b", "w", "b", "w", "w", "b", "w", "b", "w"];
   this.noteColors = ["#7F7DD8", "#67BA23", "#CC7E4B", "#A8579A"];
-  this.noteScale = 220;
+  this.noteScale = 110;
+  this.pianoKeyWidth = 25;
 }
 
 Drawer.prototype.draw = function draw() {
@@ -49,7 +50,7 @@ Drawer.prototype.drawNoteGrid = function () {
     } else {
       this.ctx.fillStyle = "#222";
     }
-    this.ctx.fillRect(0, y, 50, this.heightPerNote);
+    this.ctx.fillRect(0, y, this.pianoKeyWidth, this.heightPerNote);
 
     // Draw horizontal grid line
     this.ctx.save();
@@ -60,11 +61,11 @@ Drawer.prototype.drawNoteGrid = function () {
 
   // Draw line to separate piano tangent from note grid
   this.ctx.fillStyle = "#222";
-  this.ctx.fillRect(50, 0, 3, this.canvas.height);
+  this.ctx.fillRect(this.pianoKeyWidth, 0, 3, this.canvas.height);
 };
 
 Drawer.prototype.drawNote = function (note) {
-  const x = 55 + (note.time - app.time) * this.noteScale;
+  const x = 1.07 * this.pianoKeyWidth + (note.time - app.time) * this.noteScale;
   const y = this.getYByNoteNumber(note.midi);
   const width = note.duration * this.noteScale;
   const height = this.heightPerNote;

@@ -41,9 +41,22 @@ hr {
   font-size: 1.6rem;
 }
 
-#piano-roll-canvas {
+.canvas-wrapper {
   position: absolute;
   right: 0;
+}
+
+#piano-roll-canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  /*
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: -o-crisp-edges;
+  image-rendering: pixelated;
+  */
 }
 
 .no-select {

@@ -122,6 +122,7 @@ function render() {
 
 function setDimensions() {
   let sidebar = document.getElementsByClassName('sidebar')[0];
+  let canvasWrapper = document.getElementsByClassName('canvas-wrapper')[0];
   let sidebarWidth = 0;
   if (window.innerWidth < 600) {
     sidebar.style.display = 'none';
@@ -129,8 +130,10 @@ function setDimensions() {
     sidebar.style.display = 'block';
     sidebarWidth = sidebar.offsetWidth;
   }
-  app.canvas.width = window.innerWidth - sidebarWidth;
-  app.canvas.height = window.innerHeight;
+  canvasWrapper.style.width = `${window.innerWidth - sidebarWidth}px`;
+  canvasWrapper.style.height = `${window.innerHeight}px`;
+  app.canvas.width = (window.innerWidth - sidebarWidth) / 2;
+  app.canvas.height = window.innerHeight / 2;
 }
 
 (function() {
