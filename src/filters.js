@@ -8,3 +8,8 @@ Vue.filter('formatDuration', function (numSeconds) {
   }
   return `${minutes}:${seconds}`;
 });
+
+Vue.filter('formatInteger', function (number) {
+  return Math.round(number) | 0;
+});
+

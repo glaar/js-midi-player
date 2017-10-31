@@ -4,10 +4,12 @@ let app = new Vue({
     time: 0,
     isPlaying: false,
     loadingMidi: true,
-    channels: null
+    channels: null,
+    currentTempo: null,
+    originalTempo: null
   },
   created: function() {
-    this.synth = new Tone.PolySynth(4).toMaster();
+    this.synth = new Tone.PolySynth(5).toMaster();
     this.canvas = document.getElementById('piano-roll-canvas');
     this.drawer = new Drawer(this.canvas, this);
 
@@ -22,7 +24,9 @@ let app = new Vue({
 
     MidiConvert.load(`songs/${that.midiFilename}`, function(midi) {
       // make sure you set the tempo before you schedule the events
-      Tone.Transport.bpm.value = midi.header.bpm;
+      that.originalTempo = Tone.Transport.bpm.value = midi.header.bpm;
+      that.currentTempo = that.originalTempo;
+      const quarterNoteDuration = 60 / that.originalTempo;  // in seconds
 
       that.channels = [];
       for (let track of midi.tracks) {
@@ -56,8 +60,13 @@ let app = new Vue({
 
           channel.part = new Tone.Part(
             function(time, note) {
-              // use the events to play the synth
-              that.synth.triggerAttackRelease(note.name, note.duration, time, note.velocity)
+              let sixteenths = 4 * note.duration / quarterNoteDuration;
+              let measures = 0 | (sixteenths / 16);
+              sixteenths -= measures * 16;
+              let beats = 0 | (sixteenths / 4);
+              sixteenths -= beats * 4;
+              const duration = `${measures}:${beats}:${sixteenths.toFixed(2)}`;
+              that.synth.triggerAttackRelease(note.name, duration, time, note.velocity)
             },
             track.notes
           ).start(0);
@@ -98,6 +107,14 @@ let app = new Vue({
       const channel = this.channels[channelIndex];
       channel.isActive = !channel.isActive;
       channel.part.mute = !channel.isActive;
+    },
+    decreaseTempo: function() {
+      this.currentTempo /= 1.1;
+      Tone.Transport.bpm.value = this.currentTempo;
+    },
+    increaseTempo: function() {
+      this.currentTempo *= 1.1;
+      Tone.Transport.bpm.value = this.currentTempo;
     },
   }
 });

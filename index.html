@@ -49,9 +49,14 @@
             </div>
         </div>
 
-        <div class="controls no-select" v-on:click="togglePlay">
+        <div class="controls no-select">
             <hr>
-            <img v-bind:src="isPlaying ? 'img/stop.png' : 'img/play.png'">
+            Tempo:
+            <button v-on:click="decreaseTempo" v-bind:disabled="currentTempo < originalTempo / 2">-</button>
+            <span style="display: inline-block; width: 70px">{{ currentTempo | formatInteger }} bpm</span>
+            <button v-on:click="increaseTempo" v-bind:disabled="currentTempo > originalTempo * 2">+</button>
+            <hr>
+            <img class="image-button" v-bind:src="isPlaying ? 'img/stop.png' : 'img/play.png'" v-on:click="togglePlay">
             <br>{{ time | formatDuration }}
         </div>
     </div>
