@@ -141,7 +141,7 @@ function setDimensions() {
   let sidebar = document.getElementsByClassName('sidebar')[0];
   let canvasWrapper = document.getElementsByClassName('canvas-wrapper')[0];
   let sidebarWidth = 0;
-  if (window.innerWidth < 600) {
+  if (window.innerWidth < 500) {
     sidebar.style.display = 'none';
   } else {
     sidebar.style.display = 'block';
