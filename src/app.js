@@ -97,7 +97,7 @@ let app = new Vue({
 
       Tone.Transport.schedule(function(time){
         that.stop();
-      }, getTempoDependentTime(that.endTime));
+      }, getTempoDependentTime(that.endTime + 1));
 
       that.loadingMidi = false;
 
