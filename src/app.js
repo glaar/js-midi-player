@@ -23,7 +23,7 @@ let app = new Vue({
     let that = this;
     this.noteNumberExtent = [48, 60];
 
-    MidiConvert.load(`songs/${that.midiFilename}`, function(midi) {
+    MidiConvert.load(`songs/${that.midiFilename}`).then(function(midi) {
       // make sure you set the tempo before you schedule the events
       that.originalTempo = Tone.Transport.bpm.value = midi.header.bpm;
       that.currentTempo = that.originalTempo;
@@ -107,6 +107,8 @@ let app = new Vue({
 
       window.addEventListener('keyup', onKeyUp);
 
+    }, function() {
+      alert('Failed to load the specified midi file :(');
     });
   },
   methods: {
