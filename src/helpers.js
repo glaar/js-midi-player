@@ -12,6 +12,10 @@ function findGetParameter(parameterName) {
 }
 
 function relativeMouseCoords(e, canvas) {
+  if (e.type !== "touchstart") {
+    e.preventDefault();
+  }
+
   let currentElement = canvas;
   let totalOffsetX = 0;
   let totalOffsetY = 0;
