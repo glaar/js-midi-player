@@ -29,14 +29,24 @@ let app = new Vue({
       that.currentTempo = that.originalTempo;
       const quarterNoteDuration = 60 / that.originalTempo;  // in seconds
 
+      function getTempoDependentTime(timeInSeconds) {
+        let sixteenths = 4 * timeInSeconds / quarterNoteDuration;
+        let measures = 0 | (sixteenths / 16);
+        sixteenths -= measures * 16;
+        let beats = 0 | (sixteenths / 4);
+        sixteenths -= beats * 4;
+        return `${measures}:${beats}:${sixteenths.toFixed(2)}`;
+      }
+
       that.channels = [];
+      that.endTime = 0;
       for (let track of midi.tracks) {
         if (track.channelNumber >= 0) {
           let channel = {
             track: track,
             isActive: true,
             icon: `melody.png`,
-            ordering: 0
+            ordering: 0,
           };
 
           if (channel.track.name.toLowerCase().indexOf('bass') !== -1) {
@@ -59,14 +69,14 @@ let app = new Vue({
             channel.ordering = 0;
           }
 
+          channel.endTime = track.duration;
+          if (that.endTime < channel.endTime) {
+            that.endTime = channel.endTime;
+          }
+
           channel.part = new Tone.Part(
             function(time, note) {
-              let sixteenths = 4 * note.duration / quarterNoteDuration;
-              let measures = 0 | (sixteenths / 16);
-              sixteenths -= measures * 16;
-              let beats = 0 | (sixteenths / 4);
-              sixteenths -= beats * 4;
-              const duration = `${measures}:${beats}:${sixteenths.toFixed(2)}`;
+              const duration = getTempoDependentTime(note.duration);
               that.synth.triggerAttackRelease(note.name, duration, time, note.velocity)
             },
             track.notes
@@ -84,6 +94,10 @@ let app = new Vue({
         }
       }
       that.channels.sort((a, b) => a.ordering - b.ordering);
+
+      Tone.Transport.schedule(function(time){
+        that.stop();
+      }, getTempoDependentTime(that.endTime));
 
       that.loadingMidi = false;
 
