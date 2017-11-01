@@ -5,7 +5,7 @@ function Drawer(canvas, app) {
   this.numNotesInExtent = null;
   this.app = app;
   this.keyColors = ["w", "b", "w", "b", "w", "b", "w", "w", "b", "w", "b", "w"];
-  this.noteColors = ["#7F7DD8", "#67BA23", "#CC7E4B", "#A8579A"];
+  this.noteColors = ["#A8579A", "#67BA23", "#CC7E4B", "#7F7DD8"];
   this.noteScaleFactor = 110;
   this.noteScale = this.noteScaleFactor;  // computed
   this.pianoKeyWidth = 25;
