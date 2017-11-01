@@ -104,6 +104,10 @@ let app = new Vue({
         Tone.Transport.pause()
       }
     },
+    stop: function() {
+      Tone.Transport.stop();
+      this.isPlaying = false;
+    },
     toggleChannel: function(channelIndex) {
       const channel = this.channels[channelIndex];
       channel.isActive = !channel.isActive;

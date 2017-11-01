@@ -59,11 +59,12 @@
             </div>
             <hr>
             <img class="image-button" v-bind:src="isPlaying ? 'img/pause.png' : 'img/play.png'" v-on:click="togglePlay">
+            <img class="image-button" src="img/stop.png" v-on:click="stop">
             <br>{{ time | formatDuration }}
         </div>
     </div>
-    <div class="canvas-wrapper" onclick="app.togglePlay()">
-        <canvas id="piano-roll-canvas"></canvas>
+    <div class="canvas-wrapper">
+        <canvas id="piano-roll-canvas" onclick="app.togglePlay()"></canvas>
     </div>
 </div>
 
