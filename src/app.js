@@ -158,8 +158,11 @@ let app = new Vue({
       }
 
       that.canvas.addEventListener("mousedown", handleStart, false);
+      //that.canvas.addEventListener("touchstart", handleStart, false);
       that.canvas.addEventListener("mousemove", handleMove, false);
+      //that.canvas.addEventListener("touchmove", handleMove, false);
       that.canvas.addEventListener("mouseup", handleEnd, false);
+      //that.canvas.addEventListener("touchend", handleEnd, false);
 
     }, function() {
       alert('Failed to load the specified midi file :(');
