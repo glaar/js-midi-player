@@ -7,7 +7,11 @@ let app = new Vue({
     channels: null,
     currentTempo: null,
     originalTempo: null,
-    midiFilename: null
+    midiFilename: null,
+    isDragging: false,
+    wasPlayingOnMouseDown: false,
+    startMouseDownPos: null,
+    transportTimeOnMouseDown: 0,
   },
   created: function() {
     this.synth = new Tone.PolySynth(5).toMaster();
@@ -107,6 +111,56 @@ let app = new Vue({
 
       window.addEventListener('keyup', onKeyUp);
 
+      function handleStart(e) {
+        that.startMouseDownPos = relativeMouseCoords(e, that.canvas);
+        that.isDragging = false;
+        that.wasPlayingOnMouseDown = that.isPlaying;
+        that.transportTimeOnMouseDown = Tone.Transport.seconds;
+        if (that.isPlaying) {
+          that.pause();
+        }
+      }
+
+      function handleMove(e) {
+        e.preventDefault();
+        if (that.startMouseDownPos) {
+          that.isDragging = true;
+          let position = relativeMouseCoords(e, that.canvas);
+          let distance = that.startMouseDownPos.x - position.x;
+          const timeDiff = (distance / that.drawer.noteScale) / 2;
+          Tone.Transport.seconds = that.transportTimeOnMouseDown + timeDiff;
+        }
+      }
+
+      function handleEnd(e) {
+        let position = relativeMouseCoords(e, that.canvas);
+
+        if (that.isDragging) { // drag
+          let distance = that.startMouseDownPos.x - position.x;
+          if (Math.abs(distance) < 5) {
+            // Small drag handled as click
+            if (!that.wasPlayingOnMouseDown) {
+              that.play();
+            }
+          } else {
+            // Drag end
+            if (that.wasPlayingOnMouseDown) {
+              that.play();
+            }
+          }
+        } else { // click
+          if (!that.wasPlayingOnMouseDown) {
+            that.play();
+          }
+        }
+
+        that.startMouseDownPos = null;
+      }
+
+      that.canvas.addEventListener("mousedown", handleStart, false);
+      that.canvas.addEventListener("mousemove", handleMove, false);
+      that.canvas.addEventListener("mouseup", handleEnd, false);
+
     }, function() {
       alert('Failed to load the specified midi file :(');
     });
@@ -119,6 +173,14 @@ let app = new Vue({
       } else {
         Tone.Transport.pause()
       }
+    },
+    pause: function() {
+      Tone.Transport.pause();
+      this.isPlaying = false;
+    },
+    play: function() {
+      Tone.Transport.start();
+      this.isPlaying = true;
     },
     stop: function() {
       Tone.Transport.stop();
@@ -141,7 +203,6 @@ let app = new Vue({
 });
 
 function onKeyUp(e) {
-  console.log('keyUp', e);
   if (e.keyCode !== 32) {
     return;
   }
