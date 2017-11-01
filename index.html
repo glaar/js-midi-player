@@ -37,12 +37,12 @@
 
 <div class="wrapper">
     <div class="sidebar" id="app" v-cloak>
-        <header>C# Player</header>
+        <!--<header>C# Player</header>-->
         <hr>
         <div class="channel-list">
             <div class="channel no-select" v-for="(channel, index) in channels" v-on:click="toggleChannel(index)">
                 <span class="channel-icon"><img v-bind:src="'img/' + channel.icon"></span>
-                <span class="channel-name">{{ channel.track.name }}</span>
+                <span class="channel-name" v-bind:title="channel.track.name">{{ channel.track.name }}</span>
                 <span class="channel-toggle">
                     <img v-bind:src="channel.isActive ? 'img/flip_switch_on.png' : 'img/flip_switch_off.png'">
                 </span>
@@ -58,7 +58,7 @@
                 <button v-on:click="increaseTempo" v-bind:disabled="currentTempo > originalTempo * 2">+</button>
             </div>
             <hr>
-            <img class="image-button" v-bind:src="isPlaying ? 'img/stop.png' : 'img/play.png'" v-on:click="togglePlay">
+            <img class="image-button" v-bind:src="isPlaying ? 'img/pause.png' : 'img/play.png'" v-on:click="togglePlay">
             <br>{{ time | formatDuration }}
         </div>
     </div>

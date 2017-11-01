@@ -6,7 +6,8 @@ let app = new Vue({
     loadingMidi: true,
     channels: null,
     currentTempo: null,
-    originalTempo: null
+    originalTempo: null,
+    midiFilename: null
   },
   created: function() {
     this.synth = new Tone.PolySynth(5).toMaster();
@@ -100,7 +101,7 @@ let app = new Vue({
       if (this.isPlaying) {
         Tone.Transport.start()
       } else {
-        Tone.Transport.stop()
+        Tone.Transport.pause()
       }
     },
     toggleChannel: function(channelIndex) {
