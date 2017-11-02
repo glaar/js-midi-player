@@ -97,13 +97,15 @@ let app = new Vue({
 
       that.startTime = Math.min(that.startTime, that.endTime);
       that.startTime = Math.max(that.startTime, 0);
-      that.desiredStartTime = Math.max(0, this.startTime - 0.1);
+      that.desiredStartPosition = that.getTempoDependentTime(
+        Math.max(0, that.startTime - 0.1)
+      );
 
       Tone.Transport.schedule(function(time){
         that.stop();
       }, that.getTempoDependentTime(that.endTime + 1));
 
-      Tone.Transport.seconds = desiredStartTime;
+      Tone.Transport.position = that.desiredStartPosition;
 
       that.loadingMidi = false;
 
@@ -191,8 +193,8 @@ let app = new Vue({
       this.isPlaying = true;
     },
     stop: function() {
-      Tone.Transport.stop();
-      //Tone.Transport.seconds = Math.max(0, this.startTime - 0.1);
+      Tone.Transport.pause();
+      Tone.Transport.position = this.desiredStartPosition;
       this.isPlaying = false;
     },
     toggleChannel: function(channelIndex) {
