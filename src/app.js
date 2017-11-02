@@ -13,7 +13,8 @@ let app = new Vue({
     startMouseDownPos: null,
     transportTimeOnMouseDown: 0,
     endTime: 1,
-    startTime: Infinity
+    startTime: Infinity,
+    quarterNoteDuration: null
   },
   created: function() {
     this.synth = new Tone.PolySynth(5).toMaster();
@@ -33,16 +34,7 @@ let app = new Vue({
       // make sure you set the tempo before you schedule the events
       that.originalTempo = Tone.Transport.bpm.value = midi.header.bpm;
       that.currentTempo = that.originalTempo;
-      const quarterNoteDuration = 60 / that.originalTempo;  // in seconds
-
-      function getTempoDependentTime(timeInSeconds) {
-        let sixteenths = 4 * timeInSeconds / quarterNoteDuration;
-        let measures = 0 | (sixteenths / 16);
-        sixteenths -= measures * 16;
-        let beats = 0 | (sixteenths / 4);
-        sixteenths -= beats * 4;
-        return `${measures}:${beats}:${sixteenths.toFixed(2)}`;
-      }
+      that.quarterNoteDuration = 60 / that.originalTempo;  // in seconds
 
       that.channels = [];
       for (let track of midi.tracks) {
@@ -84,7 +76,7 @@ let app = new Vue({
 
           channel.part = new Tone.Part(
             function(time, note) {
-              const duration = getTempoDependentTime(note.duration);
+              const duration = that.getTempoDependentTime(note.duration);
               that.synth.triggerAttackRelease(note.name, duration, time, note.velocity)
             },
             track.notes
@@ -105,12 +97,13 @@ let app = new Vue({
 
       that.startTime = Math.min(that.startTime, that.endTime);
       that.startTime = Math.max(that.startTime, 0);
+      that.desiredStartTime = Math.max(0, this.startTime - 0.1);
 
       Tone.Transport.schedule(function(time){
         that.stop();
-      }, getTempoDependentTime(that.endTime + 1));
+      }, that.getTempoDependentTime(that.endTime + 1));
 
-      Tone.Transport.seconds = Math.max(0, that.startTime - 0.1);
+      Tone.Transport.seconds = desiredStartTime;
 
       that.loadingMidi = false;
 
@@ -198,8 +191,8 @@ let app = new Vue({
       this.isPlaying = true;
     },
     stop: function() {
-      Tone.Transport.pause();
-      Tone.Transport.seconds = Math.max(0, this.startTime - 0.1);
+      Tone.Transport.stop();
+      //Tone.Transport.seconds = Math.max(0, this.startTime - 0.1);
       this.isPlaying = false;
     },
     toggleChannel: function(channelIndex) {
@@ -214,6 +207,14 @@ let app = new Vue({
     increaseTempo: function() {
       this.currentTempo *= 1.1;
       Tone.Transport.bpm.value = this.currentTempo;
+    },
+    getTempoDependentTime: function(timeInSeconds) {
+      let sixteenths = 4 * timeInSeconds / this.quarterNoteDuration;
+      let measures = 0 | (sixteenths / 16);
+      sixteenths -= measures * 16;
+      let beats = 0 | (sixteenths / 4);
+      sixteenths -= beats * 4;
+      return `${measures}:${beats}:${sixteenths.toFixed(2)}`;
     },
   }
 });
