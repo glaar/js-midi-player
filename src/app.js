@@ -12,6 +12,8 @@ let app = new Vue({
     wasPlayingOnMouseDown: false,
     startMouseDownPos: null,
     transportTimeOnMouseDown: 0,
+    endTime: 1,
+    startTime: Infinity
   },
   created: function() {
     this.synth = new Tone.PolySynth(5).toMaster();
@@ -43,7 +45,6 @@ let app = new Vue({
       }
 
       that.channels = [];
-      that.endTime = 0;
       for (let track of midi.tracks) {
         if (track.channelNumber >= 0) {
           let channel = {
@@ -77,6 +78,9 @@ let app = new Vue({
           if (that.endTime < channel.endTime) {
             that.endTime = channel.endTime;
           }
+          if (track.startTime < that.startTime) {
+            that.startTime = track.startTime;
+          }
 
           channel.part = new Tone.Part(
             function(time, note) {
@@ -99,9 +103,14 @@ let app = new Vue({
       }
       that.channels.sort((a, b) => a.ordering - b.ordering);
 
+      that.startTime = Math.min(that.startTime, that.endTime);
+      that.startTime = Math.max(that.startTime, 0);
+
       Tone.Transport.schedule(function(time){
         that.stop();
       }, getTempoDependentTime(that.endTime + 1));
+
+      Tone.Transport.seconds = Math.max(0, that.startTime - 0.1);
 
       that.loadingMidi = false;
 
@@ -189,7 +198,8 @@ let app = new Vue({
       this.isPlaying = true;
     },
     stop: function() {
-      Tone.Transport.stop();
+      Tone.Transport.pause();
+      Tone.Transport.seconds = Math.max(0, this.startTime - 0.1);
       this.isPlaying = false;
     },
     toggleChannel: function(channelIndex) {
