@@ -111,7 +111,7 @@ let app = new Vue({
 
       setDimensions();
 
-      render();
+      requestAnimationFrame(render);
 
       window.addEventListener('keyup', onKeyUp);
 
