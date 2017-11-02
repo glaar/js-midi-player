@@ -134,7 +134,7 @@ let app = new Vue({
           that.isDragging = true;
           let position = relativeMouseCoords(e, that.canvas);
           let distance = that.startMouseDownPos.x - position.x;
-          const timeDiff = (distance / that.drawer.noteScale) / 2;
+          const timeDiff = (distance / that.drawer.noteScaleFactor) / 2;
           Tone.Transport.seconds = Math.min(
             Math.max(that.transportTimeOnMouseDown + timeDiff, 0),
             that.endTime - 0.1
