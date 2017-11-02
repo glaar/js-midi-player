@@ -98,7 +98,7 @@ let app = new Vue({
       that.startTime = Math.min(that.startTime, that.endTime);
       that.startTime = Math.max(that.startTime, 0);
       that.desiredStartPosition = that.getTempoDependentTime(
-        Math.max(0, that.startTime - 0.1)
+        Math.max(0, that.startTime - 0.2)
       );
 
       Tone.Transport.schedule(function(time){
@@ -193,8 +193,13 @@ let app = new Vue({
       this.isPlaying = true;
     },
     stop: function() {
-      Tone.Transport.pause();
-      Tone.Transport.position = this.desiredStartPosition;
+      if (this.startTime > 0.3) {
+        Tone.Transport.pause();
+        Tone.Transport.position = this.desiredStartPosition;
+      } else {
+        // if startTime is close to zero, only a proper stop will reliably include the first note in a replay
+        Tone.Transport.stop();
+      }
       this.isPlaying = false;
     },
     toggleChannel: function(channelIndex) {
