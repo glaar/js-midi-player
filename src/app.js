@@ -181,8 +181,7 @@ let app = new Vue({
       this.isPlaying = !this.isPlaying;
       if (this.isPlaying) {
         Tone.Transport.start();
-        this.timeStartedPlaying = +new Date();
-        this.transportTimeWhenStartedPlaying = Tone.Transport.seconds;
+        this.setTransportTimeAnchor();
       } else {
         Tone.Transport.pause()
       }
@@ -194,8 +193,7 @@ let app = new Vue({
     play: function() {
       Tone.Transport.start();
       this.isPlaying = true;
-      this.timeStartedPlaying = +new Date();
-      this.transportTimeWhenStartedPlaying = Tone.Transport.seconds;
+      this.setTransportTimeAnchor();
     },
     stop: function() {
       if (this.startTime > 0.3) {
@@ -215,10 +213,12 @@ let app = new Vue({
     decreaseTempo: function() {
       this.currentTempo /= 1.1;
       Tone.Transport.bpm.value = this.currentTempo;
+      this.setTransportTimeAnchor();
     },
     increaseTempo: function() {
       this.currentTempo *= 1.1;
       Tone.Transport.bpm.value = this.currentTempo;
+      this.setTransportTimeAnchor();
     },
     getTempoDependentTime: function(timeInSeconds) {
       let sixteenths = 4 * timeInSeconds / this.quarterNoteDuration;
@@ -228,6 +228,10 @@ let app = new Vue({
       sixteenths -= beats * 4;
       return `${measures}:${beats}:${sixteenths.toFixed(2)}`;
     },
+    setTransportTimeAnchor: function() {
+      this.timeStartedPlaying = +new Date();
+      this.transportTimeWhenStartedPlaying = Tone.Transport.seconds;
+    }
   }
 });
 
