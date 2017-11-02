@@ -12,10 +12,10 @@ function Drawer(canvas, app) {
   this.mappedAppTime = 0;  // computed
 }
 
-Drawer.prototype.draw = function draw() {
+Drawer.prototype.draw = function draw(time) {
   this.canvas.width = this.canvas.width;  // Reset the canvas
   this.noteScale = this.noteScaleFactor * this.app.originalTempo / this.app.currentTempo;
-  this.mappedAppTime = this.app.time * (this.app.currentTempo / this.app.originalTempo);
+  this.mappedAppTime = time * (this.app.currentTempo / this.app.originalTempo);
   this.ctx.save();
   this.ctx.globalAlpha = 0.7;
 

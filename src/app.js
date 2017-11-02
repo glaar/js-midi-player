@@ -1,7 +1,6 @@
 let app = new Vue({
   el: '#app',
   data: {
-    time: 0,
     isPlaying: false,
     loadingMidi: true,
     channels: null,
@@ -14,7 +13,9 @@ let app = new Vue({
     transportTimeOnMouseDown: 0,
     endTime: 1,
     startTime: Infinity,
-    quarterNoteDuration: null
+    quarterNoteDuration: null,
+    timeStartedPlaying: +new Date(),
+    transportTimeWhenStartedPlaying: 0,
   },
   created: function() {
     this.synth = new Tone.PolySynth(5).toMaster();
@@ -179,7 +180,9 @@ let app = new Vue({
     togglePlay: function() {
       this.isPlaying = !this.isPlaying;
       if (this.isPlaying) {
-        Tone.Transport.start()
+        Tone.Transport.start();
+        this.timeStartedPlaying = +new Date();
+        this.transportTimeWhenStartedPlaying = Tone.Transport.seconds;
       } else {
         Tone.Transport.pause()
       }
@@ -191,6 +194,8 @@ let app = new Vue({
     play: function() {
       Tone.Transport.start();
       this.isPlaying = true;
+      this.timeStartedPlaying = +new Date();
+      this.transportTimeWhenStartedPlaying = Tone.Transport.seconds;
     },
     stop: function() {
       if (this.startTime > 0.3) {
@@ -238,9 +243,16 @@ function onKeyUp(e) {
 function render() {
   requestAnimationFrame(render);
 
-  // The time elapsed in seconds
-  app.time = Tone.Transport.seconds;
-  app.drawer.draw();
+  let time;
+  if (app.isPlaying) {
+    const dt = (+new Date() - app.timeStartedPlaying) / 1000;
+    // calculate interpolated time, because Tone.Transport.seconds is not updated often enough for smooth animation
+    time = app.transportTimeWhenStartedPlaying + dt;
+  } else {
+    time = Tone.Transport.seconds;
+  }
+
+  app.drawer.draw(time);
 }
 
 function setDimensions() {
