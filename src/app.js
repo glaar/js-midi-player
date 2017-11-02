@@ -16,9 +16,11 @@ let app = new Vue({
     quarterNoteDuration: null,
     timeStartedPlaying: +new Date(),
     transportTimeWhenStartedPlaying: 0,
+    lookAhead: 0
   },
   created: function() {
     this.synth = new Tone.PolySynth(5).toMaster();
+    Tone.context.latencyHint = 0.15;
     this.canvas = document.getElementById('piano-roll-canvas');
     this.drawer = new Drawer(this.canvas, this);
 

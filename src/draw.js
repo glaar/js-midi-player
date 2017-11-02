@@ -15,7 +15,7 @@ function Drawer(canvas, app) {
 Drawer.prototype.draw = function draw(time) {
   this.canvas.width = this.canvas.width;  // Reset the canvas
   this.noteScale = this.noteScaleFactor * this.app.originalTempo / this.app.currentTempo;
-  this.mappedAppTime = time * (this.app.currentTempo / this.app.originalTempo);
+  this.mappedAppTime = (time - Tone.context.lookAhead) * (this.app.currentTempo / this.app.originalTempo);
   this.ctx.save();
   this.ctx.globalAlpha = 0.7;
 
@@ -69,7 +69,7 @@ Drawer.prototype.drawNoteGrid = function () {
 };
 
 Drawer.prototype.drawNote = function (note) {
-  const x = 1.13 * this.pianoKeyWidth + (note.time - this.mappedAppTime) * this.noteScale;
+  const x = 3 + this.pianoKeyWidth + (note.time - this.mappedAppTime) * this.noteScale;
   const y = this.getYByNoteNumber(note.midi);
   const width = note.duration * this.noteScale;
   const height = this.heightPerNote;
